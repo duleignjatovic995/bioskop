@@ -54,7 +54,7 @@ def dodaj_datum(projekcija):
 def dodaj_sifru(projekcija):
     while True:
         print("Unesite 2 karaktera za sifru termina")
-        karakteri = input(">>").strip()
+        karakteri = input(">>").strip().upper()
         if provera_sifre1(karakteri) and provera_sifre2(karakteri) and provera_sifre3(karakteri):
             return str(projekcija["sifra"]) + karakteri
         else:
@@ -282,11 +282,10 @@ def prodaj_rezervisano_sediste(karta):
 
 # metode za brisanje i izmenu
 
-def obrisi_termin(sifra):
-    termin = vrati_termin(sifra)
+def obrisi_termin(termin):
     lista_termina.remove(termin)
-    sacuvaj_sve()
-    meni.init()
+    # sacuvaj_sve()
+    # meni.init() # todo refresh
 
 
 def sacuvaj_sve(fajl="podaci/termini.txt"):
@@ -321,7 +320,40 @@ def update_termin_cena(projekcija):
             termin["cena"] = dodaj_cenu(projekcija, termin["datum"])
 
 
+def obavesti_obrisana_projekcija(projekcija):
+    global lista_termina
+    for termin in lista_termina:
+        if projekcija is termin["projekcija"]:
+            lista_termina.remove(termin)
+            # karte.obavesti
+
+
 def izmeni_termin(termin):
-    pass
+    while True:
+        print("Izmeni termin projekcije po:")
+        print("0. Zavrsi i sacuvaj sve promene")
+        print("1. Sifra")
+        print("2. Datum")
 
+        opcija = input(">>").strip()
 
+        if opcija == "1":
+            unos = dodaj_sifru(termin["projekcija"])
+            termin["sifra"] = unos
+            meni.sacuvaj_ceo_sistem()
+            print("Uspesno promenjena sifra")
+
+        elif opcija == "2":
+            datum = dodaj_datum(termin["projekcija"])
+            termin["datum"] = datum
+            termin["cena"] = dodaj_cenu(termin["projekcija"], datum)
+            print("Uspesno ste promenili datum")
+
+        elif opcija == "0":
+            break
+
+        else:
+            print("Nepoznata akcija! Probajte ponovo...")
+
+    sacuvaj_sve()
+    print("Sacuvane sve promene nad terminom u fajlovima!")

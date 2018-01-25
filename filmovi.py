@@ -137,11 +137,10 @@ def film2str(film):
 
 # metode za brisanje i izmenu filmova
 
-def obrisi_film(naziv_filma):
-    film = vrati_film(naziv_filma)
+def obrisi_film(film):
     lista_filmova.remove(film)
-    sacuvaj_sve()
-    meni.init()
+    # sacuvaj_sve()
+    # meni.init() todo refresh
 
 
 def sacuvaj_sve(fajl="podaci/filmovi.txt"):
@@ -154,7 +153,7 @@ def sacuvaj_sve(fajl="podaci/filmovi.txt"):
 def izmeni_film(film):
     while True:
         print("Izmeni film po:")
-        print("0. Nazad")
+        print("0. Zavrsi i sacuvaj sve promene")
         print("1. Naziv filma")
         print("2. Trajanje")
         print("3. Reziseri")

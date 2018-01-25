@@ -9,4 +9,4 @@ sanja|zunic|sanjaz|2222AA|3a|31-12-9999|rezervisana
 dule|lule|lule|2222AA|3c|31-12-9999|rezervisana
 sanja|zunic|sanjaz|3333AA|4a|31-12-9999|rezervisana
 sanja|zunic|sanjaz|2222AA|2b|23-01-2018|kupljena
-dusan|ignjatovic|dule|4444AA|1a|24-01-2018|kupljena
+dusan|ignjatovic|dule|4444DD|1a|24-01-2018|kupljena

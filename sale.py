@@ -188,11 +188,10 @@ def print_sale(lst=lista_sale):
 
 # brisanje i izmena projekcije
 
-def obrisi_salu(sifra):
-    sala = vrati_salu_provera(sifra)
+def obrisi_salu(sala):
     lista_sale.remove(sala)
-    sacuvaj_sve()
-    meni.init()
+    # sacuvaj_sve()
+    # meni.init() todo refresh
 
 
 def sacuvaj_sve(fajl="podaci/sale.txt"):
@@ -205,7 +204,7 @@ def sacuvaj_sve(fajl="podaci/sale.txt"):
 def izmeni_salu(sala):
     while True:
         print("Izmeni salu po:")
-        print("0. Nazad")
+        print("0. Zavrsi i sacuvaj sve promene")
         print("1. Sifra sale")
         print("2. Naziv sale")
 

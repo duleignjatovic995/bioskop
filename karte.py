@@ -208,6 +208,12 @@ def sacuvaj_sve(fajl="podaci/karte.txt"):
             f.write("\n")
 
 
+def obavesti_obrisan_termin(termin):
+    for karta in lista_karata:
+        if termin is karta["termin"]:
+            lista_karata.remove(karta)
+    sacuvaj_sve()
+
 # todo makni
 # def refresh_karte():
 #     global lista_karata

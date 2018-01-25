@@ -779,13 +779,44 @@ def brisanje_entiteta():
         opcija = input(">>").strip()
 
         if opcija == "1":
-            pass
+            filmovi.print_filmove()
+            print("Unesite naziv filma koji hocete da obrisete:")
+            naziv = input(">>").strip()
+            film = filmovi.vrati_film(naziv)
+            if film is None:
+                print("Ne postoji film sa tim nazivom!")
+                continue
+            #todo filmovi.izmeni_film(film)
+
         elif opcija == "2":
-            pass
+            sale.print_sale()
+            print("Unesite sifru sale koju hocete da obrisete")
+            sifra_sale = input(">>").strip()
+            sala = sale.vrati_salu(sifra_sale)
+            if sala is None:
+                print("Ne postoji sala sa tom sifrom")
+                continue
+            #todo sale.izmeni_salu(sala)
+
         elif opcija == "3":
-            pass
+            projekcije.print_projekcije()
+            print("Unesite sifru projekcije:")
+            sifra_projekcije = input(">>").strip()
+            projekcija = projekcije.vrati_projekciju(sifra_projekcije)
+            if projekcija is None:
+                print("Ne postoji projekcija sa datom sifrom.")
+                continue
+            #todo projekcije.izmeni_projekciju(projekcija)
+
         elif opcija == "4":
-            pass
+            termini.print_termine()
+            print("Unesite sifru termina:")
+            sifra_termina = input(">>").strip()
+            termin = termini.vrati_termin(sifra_termina)
+            if termin is None:
+                print("Ne postoji termin sa datom sifrom.")
+                continue
+            #todo obrisi termin
         elif opcija == "0":
             return
         else:
@@ -835,6 +866,14 @@ def izmena_entiteta():
 
         elif opcija == "4":
             termini.print_termine()
+            print("Unesite sifru termina:")
+            sifra_termina = input(">>").strip()
+            termin = termini.vrati_termin(sifra_termina)
+            if termin is None:
+                print("Ne postoji termin sa datom sifrom.")
+                continue
+            termini.izmeni_termin(termin)
+
         elif opcija == "0":
             return
         else:
@@ -851,14 +890,6 @@ def izvestaji():
 
 if __name__ == "__main__":
     # homepage()
+    init()
     # main_kupac()
     # main_radnik()
-    init()
-    projekcija = projekcije.vrati_projekciju("4444")
-
-
-    # init()
-    # sale.print_sale()
-    # sale.refresh_sale()
-    # init()
-    # sale.print_sale()

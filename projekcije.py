@@ -214,7 +214,7 @@ def pretraga_po_filmu(upit):
 def pretraga_po_sali(upit):
     lst = []
     for projekcija in lista_projekcija:
-        if upit in projekcija["sala"]["sifra"].lower():
+        if upit == projekcija["sala"]["sifra"].lower():
             lst.append(projekcija)
     return lst
 
@@ -274,11 +274,10 @@ def str2projekcija(linija):
 
 # brisanje i izmena projekcije
 
-def obrisi_projekciju(sifra):
-    projekcija = vrati_projekciju(sifra)
+def obrisi_projekciju(projekcija):
     lista_projekcija.remove(projekcija)
-    sacuvaj_sve()
-    meni.init()
+    # sacuvaj_sve()
+    # meni.init() todo refresh
 
 
 def sacuvaj_sve(fajl="podaci/projekcije.txt"):
@@ -291,7 +290,7 @@ def sacuvaj_sve(fajl="podaci/projekcije.txt"):
 def izmeni_projekciju(projekcija):
     while True:
         print("Izmeni projekciju po:")
-        print("0. Nazad")
+        print("0. Zavrsi i sacuvaj sve promene")
         print("1. Sala")
         print("2. Pocetak")
         print("3. Kraj")
@@ -300,7 +299,6 @@ def izmeni_projekciju(projekcija):
         print("6. Cena")
 
         opcija = input(">>").strip()
-
 
         if opcija == "1":
             unos = dodaj_salu()
@@ -330,13 +328,8 @@ def izmeni_projekciju(projekcija):
         elif opcija == "6":
             unos = dodaj_cenu()
             projekcija["cena"] = unos
-            termini.update_termin_cena(projekcija)
+            termini.update_termin_cena(projekcija)  # obavestavamo termin da se promenila cena
             meni.sacuvaj_ceo_sistem()
-
-            # da bi termini update-ovali cenu
-            # meni.sacuvaj_ceo_sistem()  # sacuvamo cenu projekcije
-            # meni.init()  # ucitamo cenu kako treba, ali podatak u fajlu termina jos nije konzistentan
-            # meni.sacuvaj_ceo_sistem()  # overridujemo ceo sistem
             print("Uspesno sacuvana cena projekcije")
 
         elif opcija == "0":
