@@ -1,5 +1,6 @@
 import re
 import meni
+import projekcije
 
 lista_sale = []
 
@@ -189,9 +190,9 @@ def print_sale(lst=lista_sale):
 # brisanje i izmena projekcije
 
 def obrisi_salu(sala):
+    projekcije.obavesti_obrisana_sala(sala)
     lista_sale.remove(sala)
-    # sacuvaj_sve()
-    # meni.init() todo refresh
+    sacuvaj_sve()
 
 
 def sacuvaj_sve(fajl="podaci/sale.txt"):

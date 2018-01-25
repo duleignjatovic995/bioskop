@@ -321,11 +321,11 @@ def update_termin_cena(projekcija):
 
 
 def obavesti_obrisana_projekcija(projekcija):
-    global lista_termina
     for termin in lista_termina:
         if projekcija is termin["projekcija"]:
+            karte.obavesti_obrisan_termin(termin)
             lista_termina.remove(termin)
-            # karte.obavesti
+    sacuvaj_sve()
 
 
 def izmeni_termin(termin):

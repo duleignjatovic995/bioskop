@@ -275,9 +275,25 @@ def str2projekcija(linija):
 # brisanje i izmena projekcije
 
 def obrisi_projekciju(projekcija):
+    termini.obavesti_obrisana_projekcija(projekcija)
     lista_projekcija.remove(projekcija)
-    # sacuvaj_sve()
-    # meni.init() todo refresh
+    sacuvaj_sve()
+
+
+def obavesti_obrisan_film(film):
+    for projekcija in lista_projekcija:
+        if film is projekcija["film"]:
+            termini.obavesti_obrisana_projekcija(projekcija)
+            lista_projekcija.remove(projekcija)
+    sacuvaj_sve()
+
+
+def obavesti_obrisana_sala(sala):
+    for projekcija in lista_projekcija:
+        if sala is projekcija["sala"]:
+            termini.obavesti_obrisana_projekcija(projekcija)
+            lista_projekcija.remove(projekcija)
+    sacuvaj_sve()
 
 
 def sacuvaj_sve(fajl="podaci/projekcije.txt"):

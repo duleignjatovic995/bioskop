@@ -1,4 +1,5 @@
 import meni
+import projekcije
 lista_filmova = []
 
 
@@ -138,9 +139,9 @@ def film2str(film):
 # metode za brisanje i izmenu filmova
 
 def obrisi_film(film):
+    projekcije.obavesti_obrisan_film(film)
     lista_filmova.remove(film)
-    # sacuvaj_sve()
-    # meni.init() todo refresh
+    sacuvaj_sve()
 
 
 def sacuvaj_sve(fajl="podaci/filmovi.txt"):
