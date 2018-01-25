@@ -933,7 +933,8 @@ def izvestaji():
 
 
 if __name__ == "__main__":
-    homepage()
-    # init()
+    # homepage()
+    init()
     # main_kupac()
     # main_radnik()
+

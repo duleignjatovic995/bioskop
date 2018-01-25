@@ -28,7 +28,10 @@ def ucitavanje_karti(fajl="podaci/karte.txt"):
     global lista_karata
     with open(fajl, "r") as f:
         for linija in f:
-            lista_karata.append(str2karta(linija))
+            karta = str2karta(linija)
+            if karta is None:
+                continue
+            lista_karata.append(karta)
 
 
 def sacuvaj_kartu(karta, fajl="podaci/karte.txt"):
@@ -54,11 +57,14 @@ def str2karta(linija):
     except:
         print("Greska pri citanju iz baze, karta nije ucitana")
         return
+    termin = termini.vrati_termin(termin_s)
+    if termin is None:
+        return
     karta = {}
     karta["ime"] = ime
     karta["prezime"] = prezime
     karta["korisnicko_ime"] = korisnicko_ime
-    karta["termin"] = termini.vrati_termin(termin_s)
+    karta["termin"] = termin
     karta["oznaka"] = oznaka
     karta["datum_prodaje"] = datetime.strptime(datum, "%d-%m-%Y")
     karta["tip"] = tip

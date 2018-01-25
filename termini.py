@@ -162,7 +162,10 @@ def ucitavanje_termina(fajl="podaci/termini.txt"):
     global lista_termina
     with open(fajl, "r") as f:
         for linija in f:
-            lista_termina.append(str2termin(linija))
+            termin = str2termin(linija)
+            if termin is None:
+                continue
+            lista_termina.append(termin)
 
 
 # metode za konverziju
@@ -179,12 +182,13 @@ def termin2str(termin):
 
 def str2termin(linija):
     sifra, datums, projekcijas, sala_s, sedista, cena = linija.strip().split("|")
-    # if projekcijas is None or projekcijas == "": todo makni
-    #     return None
+    projekcija = projekcije.vrati_projekciju(projekcijas)
+    if projekcija is None:
+        return
     termin = {
         "sifra": sifra,
         "datum": datetime.strptime(datums, '%d-%m-%Y'),
-        "projekcija": projekcije.vrati_projekciju(projekcijas),
+        "projekcija": projekcija,
         "sala": sale.vrati_salu(sala_s),
         "sedista": str2sedista(sedista),
         "cena": str2cena(projekcijas, datums)
@@ -321,11 +325,12 @@ def obrisi_termin(termin):
 
 
 def obavesti_obrisana_projekcija(projekcija):
-    print_termine()
+    global lista_termina
     for termin in lista_termina:
         if projekcija is termin["projekcija"]:
-            karte.obavesti_obrisan_termin(termin)
             lista_termina.remove(termin)
+            karte.obavesti_obrisan_termin(termin)
+
     sacuvaj_sve()
 
 

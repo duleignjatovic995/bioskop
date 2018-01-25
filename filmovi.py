@@ -139,8 +139,8 @@ def film2str(film):
 # metode za brisanje i izmenu filmova
 
 def obrisi_film(film):
-    projekcije.obavesti_obrisan_film(film)
     lista_filmova.remove(film)
+    projekcije.obavesti_obrisan_film(film)
     sacuvaj_sve()
 
 

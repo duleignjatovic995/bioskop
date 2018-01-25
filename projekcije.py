@@ -182,7 +182,10 @@ def ucitavanje_projekcija(fajl="podaci/projekcije.txt"):
     global lista_projekcija
     with open(fajl, "r") as f:
         for linija in f:
-            lista_projekcija.append(str2projekcija(linija))
+            projekcija = str2projekcija(linija)
+            if projekcija is None:
+                continue
+            lista_projekcija.append(projekcija)
 
 
 def print_projekcije(lst=lista_projekcija):
@@ -263,36 +266,40 @@ def str2projekcija(linija):
     sifra, s_sale, pocetak_s, kraj_s, dani, film_s, cena = linija.strip().split("|")
     pocetak = datetime.strptime(pocetak_s, "%H:%M")
     kraj = datetime.strptime(kraj_s, "%H:%M")
-    # cascade on delete operacija, necemo ucitati ako film ili sala nisu pronadjeni todo makni
-    # if film_s is None or film_s == "":
-    #     return None
-    # if s_sale is None or s_sale == "":
-    #     return None
-    return {"sifra": sifra, "sala": sale.vrati_salu(s_sale), "pocetak": pocetak, "kraj": kraj,
-            "dani": dani.split(","), "film": filmovi.vrati_film(film_s), "cena": cena}
+    film = filmovi.vrati_film(film_s)
+    sala = sale.vrati_salu(s_sale)
+    if film is None:
+        return
+    if sala is None:
+        return
+    return {"sifra": sifra, "sala": sala, "pocetak": pocetak, "kraj": kraj,
+            "dani": dani.split(","), "film": film, "cena": cena}
 
 
 # brisanje i izmena projekcije
 
 def obrisi_projekciju(projekcija):
-    termini.obavesti_obrisana_projekcija(projekcija)
+
     lista_projekcija.remove(projekcija)
+    termini.obavesti_obrisana_projekcija(projekcija)
     sacuvaj_sve()
 
 
 def obavesti_obrisan_film(film):
     for projekcija in lista_projekcija:
         if film is projekcija["film"]:
-            termini.obavesti_obrisana_projekcija(projekcija)
+
             lista_projekcija.remove(projekcija)
+            termini.obavesti_obrisana_projekcija(projekcija)
     sacuvaj_sve()
 
 
 def obavesti_obrisana_sala(sala):
     for projekcija in lista_projekcija:
         if sala is projekcija["sala"]:
-            termini.obavesti_obrisana_projekcija(projekcija)
+
             lista_projekcija.remove(projekcija)
+            termini.obavesti_obrisana_projekcija(projekcija)
     sacuvaj_sve()
 
 
