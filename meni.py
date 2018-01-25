@@ -256,16 +256,22 @@ def meni_menadzer():
 
         elif opcija == "4":
             unos_entiteta()
+
         elif opcija == "5":
             brisanje_entiteta()
+
         elif opcija == "6":
             izmena_entiteta()
+
         elif opcija == "7":
             registracija_radnika()
+
         elif opcija == "8":
             izvestaji()
+
         elif opcija == "9":
             return
+
         elif opcija == "0":
             sys.exit()
 
@@ -786,7 +792,16 @@ def brisanje_entiteta():
             if film is None:
                 print("Ne postoji film sa tim nazivom!")
                 continue
-            #todo filmovi.izmeni_film(film)
+            print("Da li ste sigurni da zelite da obrisete film?")
+            print("Brisanjem filma brisete projekcije, termine projekcija i karte vezane za dati film!")
+            print("1. Da")
+            print("2. Ne")
+
+            dane = input(">>").strip()
+            if dane == "1":
+                filmovi.obrisi_film(film)
+            else:
+                continue
 
         elif opcija == "2":
             sale.print_sale()
@@ -796,7 +811,16 @@ def brisanje_entiteta():
             if sala is None:
                 print("Ne postoji sala sa tom sifrom")
                 continue
-            #todo sale.izmeni_salu(sala)
+            print("Da li ste sigurni da zelite da obrisete salu?")
+            print("Brisanjem sale brisete projekcije, termine projekcija i karte vezane za datu salu!")
+            print("1. Da")
+            print("2. Ne")
+
+            dane = input(">>").strip()
+            if dane == "1":
+                sale.obrisi_salu(sala)
+            else:
+                continue
 
         elif opcija == "3":
             projekcije.print_projekcije()
@@ -806,7 +830,16 @@ def brisanje_entiteta():
             if projekcija is None:
                 print("Ne postoji projekcija sa datom sifrom.")
                 continue
-            #todo projekcije.izmeni_projekciju(projekcija)
+            print("Da li ste sigurni da zelite da obrisete projekciju?")
+            print("Brisanjem projekcije brisete termine projekcija i karte vezane za datu projekciju!")
+            print("1. Da")
+            print("2. Ne")
+
+            dane = input(">>").strip()
+            if dane == "1":
+                projekcije.obrisi_projekciju(projekcija)
+            else:
+                continue
 
         elif opcija == "4":
             termini.print_termine()
@@ -816,9 +849,20 @@ def brisanje_entiteta():
             if termin is None:
                 print("Ne postoji termin sa datom sifrom.")
                 continue
-            #todo obrisi termin
+            print("Da li ste sigurni da zelite da obrisete projekciju?")
+            print("Brisanjem projekcije brisete termine projekcija i karte vezane za datu projekciju!")
+            print("1. Da")
+            print("2. Ne")
+
+            dane = input(">>").strip()
+            if dane == "1":
+                termini.obrisi_termin(termin)
+            else:
+                continue
+
         elif opcija == "0":
             return
+
         else:
             print("Nepoznata akcija! Probajte ponovo...")
 

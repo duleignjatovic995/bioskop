@@ -282,12 +282,6 @@ def prodaj_rezervisano_sediste(karta):
 
 # metode za brisanje i izmenu
 
-def obrisi_termin(termin):
-    lista_termina.remove(termin)
-    # sacuvaj_sve()
-    # meni.init() # todo refresh
-
-
 def sacuvaj_sve(fajl="podaci/termini.txt"):
     with open(fajl, "w") as f:
         for termin in lista_termina:
@@ -318,6 +312,12 @@ def update_termin_cena(projekcija):
     for termin in lista_termina:
         if termin["projekcija"]["sifra"] == projekcija["sifra"]:
             termin["cena"] = dodaj_cenu(projekcija, termin["datum"])
+
+
+def obrisi_termin(termin):
+    karte.obavesti_obrisan_termin(termin)
+    lista_termina.remove(termin)
+    sacuvaj_sve()
 
 
 def obavesti_obrisana_projekcija(projekcija):
