@@ -143,7 +143,7 @@ def print_termine(lst=lista_termina):
     print(zaglavlje)
     print(zaglavlje_linija)
     for termin in lst:
-        linija = "{0:<20} {1:<15} {2:<10}".format(termin["sifra"],
+        linija = "{0:<20} {1:<20} {2:<20}".format(termin["sifra"],
                                                   termin["projekcija"]["film"]["naziv_filma"],
                                                   datetime.strftime(termin["datum"], "%d-%m-%Y"))
         print(linija)
@@ -321,6 +321,7 @@ def obrisi_termin(termin):
 
 
 def obavesti_obrisana_projekcija(projekcija):
+    print_termine()
     for termin in lista_termina:
         if projekcija is termin["projekcija"]:
             karte.obavesti_obrisan_termin(termin)
