@@ -929,7 +929,49 @@ def registracija_radnika():
 
 
 def izvestaji():
-    pass
+    while True:
+        print("Izvestaji:")
+        print("0. Nazad")
+        print("1. Lista prodatih karata za odabran datum prodaje")
+        print("2. Lista prodatih karata za odabran datum početka termina projekcije")
+        print("3. Lista prodatih karata za odabran datum prodaje i odabranog prodavca")
+        print("4. Ukupan broj i ukupna cena prodatih karata za izabran dan prodaje")
+        print("5. Ukupan broj i ukupna cena prodatih karata za izabran dan održavanja projekcije.")
+        print("6. Ukupna cena prodatih karata za zadati film u svim projekcijama.")
+        print("7. Ukupan broj i ukupna cena prodatih karata za izabran dan prodaje i odabranog prodavca")
+        print("8. Ukupan broj i ukupna cena prodatih karata po prodavcima (za svakog prodavca) uposlednjih 30 dana")
+
+        opcija = input(">>").strip()
+
+        if opcija == "1":
+            pass
+
+        elif opcija == "2":
+            pass
+
+        elif opcija == "3":
+            pass
+
+        elif opcija == "4":
+            pass
+
+        elif opcija == "5":
+            pass
+
+        elif opcija == "6":
+            pass
+
+        elif opcija == "7":
+            pass
+
+        elif opcija == "8":
+            pass
+
+        elif opcija == "0":
+            return
+
+        else:
+            print("Nepoznata akcija! Probajte ponovo...")
 
 
 if __name__ == "__main__":
