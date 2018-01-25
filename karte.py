@@ -1,10 +1,11 @@
 from datetime import datetime
 import termini
+import collections
 
 lista_karata = []
 
 
-def dodaj_kartu(korisnik, termin, red, kolona, tip="rezervisana"):
+def dodaj_kartu(korisnik, termin, red, kolona, tip="rezervisana", prodavac="---"):
     sedista = termin["sedista"]
     oznaka_sediste = str(red+1) + str(chr(kolona+97))
     sedista[red][kolona] = "x"
@@ -16,8 +17,10 @@ def dodaj_kartu(korisnik, termin, red, kolona, tip="rezervisana"):
     karta["oznaka"] = oznaka_sediste
     if tip == "kupljena":
         karta["datum_prodaje"] = datetime.now()
+        karta["prodavac"] = prodavac
     elif tip == "rezervisana":
         karta["datum_prodaje"] = datetime.max
+        karta["prodavac"] = "---"
     karta["tip"] = tip
 
     sacuvaj_kartu(karta)
@@ -48,12 +51,13 @@ def karta2str(karta):
     oznaka = karta["oznaka"]
     datum = str(datetime.strftime(karta["datum_prodaje"], "%d-%m-%Y"))
     tip = karta["tip"]
-    return str(ime + "|" + prezime + "|" + korisnicko_ime + "|" + termin + "|" + oznaka + "|" + datum + "|" + tip)
+    prodavac = karta["prodavac"]
+    return str(ime + "|" + prezime + "|" + korisnicko_ime + "|" + termin + "|" + oznaka + "|" + datum + "|" + tip + "|" + prodavac)
 
 
 def str2karta(linija):
     try:
-        ime, prezime, korisnicko_ime, termin_s, oznaka, datum, tip = linija.strip().split("|")
+        ime, prezime, korisnicko_ime, termin_s, oznaka, datum, tip, prodavac = linija.strip().split("|")
     except:
         print("Greska pri citanju iz baze, karta nije ucitana")
         return
@@ -68,7 +72,7 @@ def str2karta(linija):
     karta["oznaka"] = oznaka
     karta["datum_prodaje"] = datetime.strptime(datum, "%d-%m-%Y")
     karta["tip"] = tip
-
+    karta["prodavac"] = prodavac
     return karta
 
 
@@ -106,13 +110,8 @@ def pretrazi_karte_po_tipu(tip="rezervisana"):
     return lst
 
 
-def pretrazi_karte_datum(datums, lista=lista_karata):
+def pretrazi_karte_datum_termina(datum, lista=lista_karata):
     lst = []
-    try:
-        datum = datetime.strptime(datums, "%d-%m-%Y")
-    except:
-        print("Lose unet format datuma")
-        return lst
     for karta in lista:
         if karta["termin"]["datum"] == datum:
             lst.append(karta)
@@ -153,6 +152,31 @@ def pretrazi_karte_sifra_termina(sifra, lista=lista_karata):
     lst = []
     for karta in lista:
         if sifra.lower() == karta["termin"]["sifra"].lower():
+            lst.append(karta)
+    return lst
+
+
+def pretrazi_karte_datum_prodaje(datum):
+    lst = []
+    for karta in lista_karata:
+        if karta["datum_prodaje"] == datum and karta["tip"] == "kupljena":
+            lst.append(karta)
+    return lst
+
+
+def pretrazi_karte_datum_prodaje_prodavac(datum, prodavac):
+    lst = []
+    for karta in lista_karata:
+        if karta["datum_prodaje"] == datum and karta["tip"] == "kupljena" and karta["prodavac"] == prodavac:
+            lst.append(karta)
+    return lst
+
+
+def pretrazi_prodate_karte_po_filmu(naziv_filma):
+    lst = []
+    naziv = naziv_filma.lower()
+    for karta in lista_karata:
+        if naziv == karta["termin"]["projekcija"]["film"]["naziv_filma"].lower() and karta["tip"] == "kupljena":
             lst.append(karta)
     return lst
 
@@ -225,3 +249,48 @@ def obavesti_obrisan_termin(termin):
 #     global lista_karata
 #     lista_karata = []
 #     ucitavanje_karti()
+
+
+def sum_cena(lst=lista_karata):
+    ukupna_cena = 0
+    for karta in lst:
+        ukupna_cena += float(karta["termin"]["cena"])
+    return ukupna_cena
+
+
+def cena_po_prodavcu(lst=lista_karata):
+    prodavci = collections.defaultdict(list)
+    for karta in lst:
+        if karta["tip"] == "kupljena":
+            if karta["prodavac"] in prodavci.keys():
+                prodavci[karta["prodavac"]][0] += float(karta["termin"]["cena"])
+                prodavci[karta["prodavac"]][1] += 1
+            else:
+                prodavci[karta["prodavac"]] = [0, 0]
+                prodavci[karta["prodavac"]][0] += float(karta["termin"]["cena"])
+                prodavci[karta["prodavac"]][1] += 1
+    return prodavci
+
+
+def tabela_broj_cena(broj, cena):
+    print()
+    print("{0:<20} {1:<20}".format("BROJ", "UKUPNA CENA"))
+    print("{0:-<20} {1:-<20}".format("-", "-"))
+    print("{0:<20} {1:<20}".format(str(broj), str(cena)))
+
+
+def tabela_cena(cena):
+    print()
+    print("{0:<20}".format("UKUPNA CENA"))
+    print("{0:-<20}".format("-"))
+    print("{0:<20}".format(str(cena)))
+
+
+def tabela_prodavci(prodavci):
+    print()
+    print("{0:<20} {1:<20} {1:<20}".format("PRODAVAC", "UKUPNA CENA", "BROJ"))
+    print("{0:-<20} {1:-<20} {1:-<20}".format("-", "-", "-"))
+    for prodavac, lista in prodavci.items():
+        # lista[0] - ukupna cena
+        # lista[1] - ukupan broj
+        print("{0:<20} {1:<20} {1:<20}".format(prodavac, lista[0], lista[1]))

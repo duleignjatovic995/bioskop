@@ -264,22 +264,23 @@ def rezervisi_sediste(korisnik, termin, red, kolona):
     sacuvaj_sve()
 
 
-def prodaj_sediste(korisnik, termin, red, kolona):
+def prodaj_sediste(korisnik, termin, red, kolona, prodavac):
     try:
         red = int(red)
     except:
         print("Niste uneli ceo broj!")
     if proveri_sediste(termin, red, kolona):
-        karte.dodaj_kartu(korisnik, termin, red, kolona, tip="kupljena")
+        karte.dodaj_kartu(korisnik, termin, red, kolona, tip="kupljena", prodavac=prodavac["korisnicko_ime"])
     else:
         print("Sediste nije slobodno!")
     print_sedista(termin)
     sacuvaj_sve()
 
 
-def prodaj_rezervisano_sediste(karta):
+def prodaj_rezervisano_sediste(karta, prodavac):
     karta["tip"] = "kupljena"
     karta["datum_prodaje"] = datetime.now()
+    karta["prodavac"] = prodavac["korisnicko_ime"]
     sacuvaj_sve()
     karte.sacuvaj_sve()
 

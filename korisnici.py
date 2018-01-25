@@ -113,12 +113,14 @@ def vrati_korisnika(korisnicko_ime):
             return korisnik
 
 
-def vrati_kupce():
+def vrati_korisnike(tip="kupac"):
     lst = []
     for korisnik in lista_korisnika:
-        if korisnik["tip"].lower()=="kupac":
+        if korisnik["tip"].lower() == tip:
             lst.append(korisnik)
     return lst
+
+
 
 
 def print_korisnike(lst=lista_korisnika):

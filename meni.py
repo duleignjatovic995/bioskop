@@ -1,4 +1,5 @@
 import sys
+from datetime import datetime
 
 import filmovi
 import korisnici
@@ -84,7 +85,7 @@ def main_kupac():
             if korisnik["tip"] != "kupac":
                 print("Nemate pristup ovom nalogu")
                 continue
-            print("Uspesno logovanje")
+            print("Uspesno logovanje, dobrodosli", korisnik["korisnicko_ime"])
             meni_kupac(korisnik)
 
         elif opcija == "0":
@@ -157,11 +158,18 @@ def main_radnik():
             if korisnik is None:
                 print("\nPogresno korisnicko ime ili lozinka\n")
                 return
-            print("Uspesno logovanje")
+
             if korisnik["tip"] == "menadzer":
+                print("Uspesno logovanje, dobrodosli", korisnik["korisnicko_ime"])
                 meni_menadzer()
+
+            elif korisnik["tip"] == "prodavac":
+                print("Uspesno logovanje, dobrodosli", korisnik["korisnicko_ime"])
+                meni_prodavac(korisnik)
+
             else:
-                meni_prodavac()
+                print("Nemate pristup ovom nalogu")
+
 
         elif opcija == "0":
             return
@@ -170,7 +178,7 @@ def main_radnik():
             print("Nepoznata opcija!")
 
 
-def meni_prodavac():
+def meni_prodavac(prodavac):
     while True:
         print("\t 0. Izlazak iz aplikacije")
         print("\t 1. Pregled dostupnih filmova")
@@ -217,7 +225,7 @@ def meni_prodavac():
             pretraga_karata_prodavac()
 
         elif opcija == "8":
-            prodaja_karata()
+            prodaja_karata(prodavac)
 
         elif opcija == "9":
             print("Odjavili ste se sa sistema.")
@@ -430,7 +438,7 @@ def rezervacija_karata_prodavac():
                 print("Nema termina sa sifrom koju ste uneli")
                 continue
 
-            korisnici.print_korisnike(korisnici.vrati_kupce())
+            korisnici.print_korisnike(korisnici.vrati_korisnike())
             print("Unesite korisnicko ime kupca:")
             username = input(">>").strip().lower()
             korisnik = korisnici.vrati_korisnika(username)
@@ -564,8 +572,13 @@ def pretraga_karata_prodavac():
 
         elif opcija == "7":
             print("Unesite datum za pretragu (dd-mm-yyyy)")
-            datum = input(">>").strip()
-            lst = karte.pretrazi_karte_datum(datum)
+            datums = input(">>").strip()
+            try:
+                datum = datetime.strptime(datums, "%d-%m-%Y")
+            except:
+                print("Lose unet format datuma")
+                continue
+            lst = karte.pretrazi_karte_datum_termina(datum)
             karte.print_karte(lst)
 
         elif opcija == "8":
@@ -596,7 +609,7 @@ def pretraga_karata_prodavac():
             print("Nepoznat unos, probajte ponovo.")
 
 
-def prodaja_karata():
+def prodaja_karata(prodavac):
     while True:
         print("Prodaja karata:")
         print("0. Nazad")
@@ -606,10 +619,10 @@ def prodaja_karata():
         opcija = input(">>").strip()
 
         if opcija == "1":
-            prodaja_direktna()
+            prodaja_direktna(prodavac)
 
         elif opcija == "2":
-            prodaja_rezervisanih()
+            prodaja_rezervisanih(prodavac)
 
         elif opcija == "0":
             return
@@ -618,7 +631,7 @@ def prodaja_karata():
             print("Nepoznata opcija. Probajte ponovo")
 
 
-def prodaja_rezervisanih():
+def prodaja_rezervisanih(prodavac):
     print("Prodaja rezervisanih karata:")
     rezervisane_karte = karte.pretrazi_karte_po_tipu(tip="rezervisana")
     karte.print_karte(rezervisane_karte)
@@ -666,7 +679,7 @@ def prodaja_rezervisanih():
 
     if opcija == "1":
         konacna = karte_sediste[0]
-        termini.prodaj_rezervisano_sediste(konacna)
+        termini.prodaj_rezervisano_sediste(konacna, prodavac)
         print("Karta uspesno prodata")
     elif opcija == "2":
         return
@@ -674,7 +687,7 @@ def prodaja_rezervisanih():
         print("Nepoznata opcija")
 
 
-def prodaja_direktna():
+def prodaja_direktna(prodavac):
     while True:
         print("Direktna prodaja karata:")
         print("0. Nazad")
@@ -711,7 +724,7 @@ def prodaja_direktna():
             red = int(input(">>").strip()) - 1
             print("Unesite slobodnu kolonu (A, B, C...):")
             kolona = ord(input(">>").strip().lower()) - 97  # get acii value of lowercase letter - a
-            termini.prodaj_sediste(korisnik, termin, red, kolona)
+            termini.prodaj_sediste(korisnik, termin, red, kolona, prodavac)
 
         elif opcija == "2":
             termini.print_termine()
@@ -735,7 +748,7 @@ def prodaja_direktna():
             red = int(input(">>").strip()) - 1
             print("Unesite slobodnu kolonu (A, B, C...):")
             kolona = ord(input(">>").strip().lower()) - 97  # get acii value of lowercase letter - a
-            termini.prodaj_sediste(korisnik, termin, red, kolona)
+            termini.prodaj_sediste(korisnik, termin, red, kolona, prodavac)
 
         elif opcija == "0":
             return
@@ -944,28 +957,126 @@ def izvestaji():
         opcija = input(">>").strip()
 
         if opcija == "1":
-            pass
+            print("Unesite datum prodaje (dd-mm-yyyy)")
+            datums = input(">>").strip()
+            try:
+                datum = datetime.strptime(datums, "%d-%m-%Y")
+            except:
+                print("Pogresan format datuma.")
+                continue
+            prodate = karte.pretrazi_karte_datum_prodaje(datum)
+            if len(prodate) == 0:
+                print("Nema prodatih karata za ovaj datum")
+                continue
+
+            karte.print_karte(prodate)
 
         elif opcija == "2":
-            pass
+            print("Unesite datum termina projekcije")
+            datums = input(">>").strip()
+            try:
+                datum = datetime.strptime(datums, "%d-%m-%Y")
+            except:
+                print("Pogresan format datuma.")
+                continue
+
+            lst_karte = karte.pretrazi_karte_datum_termina(datum)
+            lst = []
+            for k in lst_karte:
+                if k["tip"] == "kupljena":
+                    lst.append(k)
+            if len(lst) == 0:
+                print("Nema prodatih karata za ovaj datum termina projekcije")
+
+            karte.print_karte(lst)
 
         elif opcija == "3":
-            pass
+            print("Unesite datum prodaje (dd-mm-yyyy)")
+            datums = input(">>").strip()
+            try:
+                datum = datetime.strptime(datums, "%d-%m-%Y")
+            except:
+                print("Pogresan format datuma.")
+                continue
+
+            korisnici.print_korisnike(korisnici.vrati_korisnike(tip="prodavac"))
+            print("Unesite korisnicko ime prodavca:")
+            prodavac = input(">>").strip()
+
+            lst = karte.pretrazi_karte_datum_prodaje_prodavac(datum, prodavac)
+            if len(lst) == 0:
+                print("Nema prodatih karata za unetog prodavca na unet datum prodaje")
+                continue
+
+            karte.print_karte(lst)
 
         elif opcija == "4":
-            pass
+            print("Unesite datum prodaje (dd-mm-yyyy)")
+            datums = input(">>").strip()
+            try:
+                datum = datetime.strptime(datums, "%d-%m-%Y")
+            except:
+                print("Pogresan format datuma.")
+                continue
+            prodate = karte.pretrazi_karte_datum_prodaje(datum)
+
+            broj_prodatih = len(prodate)
+            if broj_prodatih == 0:
+                print("Nema prodatih karata za ovaj datum")
+                continue
+            cena = karte.sum_cena(prodate)
+            karte.tabela_broj_cena(broj_prodatih, cena)
 
         elif opcija == "5":
-            pass
+            print("Unesite datum termina projekcije")
+            datums = input(">>").strip()
+            try:
+                datum = datetime.strptime(datums, "%d-%m-%Y")
+            except:
+                print("Pogresan format datuma.")
+                continue
+
+            lst_karte = karte.pretrazi_karte_datum_termina(datum)
+            lst = []
+            for k in lst_karte:
+                if k["tip"] == "kupljena":
+                    lst.append(k)
+            broj_karata = len(lst)
+            cena = karte.sum_cena(lst)
+            karte.tabela_broj_cena(broj_prodatih, cena)
 
         elif opcija == "6":
-            pass
+            print("Unesite naziv filma:")
+            naziv = input(">>").strip()
+            karte_film = karte.pretrazi_prodate_karte_po_filmu(naziv)
+            cena = karte.sum_cena(karte_film)
+            karte.tabela_cena(cena)
 
         elif opcija == "7":
-            pass
+            print("Unesite datum prodaje (dd-mm-yyyy)")
+            datums = input(">>").strip()
+            try:
+                datum = datetime.strptime(datums, "%d-%m-%Y")
+            except:
+                print("Pogresan format datuma.")
+                continue
+
+            korisnici.print_korisnike(korisnici.vrati_korisnike(tip="prodavac"))
+            print("Unesite korisnicko ime prodavca:")
+            prodavac = input(">>").strip()
+
+            lst = karte.pretrazi_karte_datum_prodaje_prodavac(datum, prodavac)
+
+            br_prodatih = len(lst)
+            if br_prodatih == 0:
+                print("Nema prodatih karata za unetog prodavca na unet datum prodaje")
+                continue
+            cena = karte.sum_cena(lst)
+            karte.tabela_broj_cena(br_prodatih, cena)
 
         elif opcija == "8":
-            pass
+            prodavci = karte.cena_po_prodavcu()
+            karte.tabela_prodavci(prodavci)
 
         elif opcija == "0":
             return
@@ -975,8 +1086,4 @@ def izvestaji():
 
 
 if __name__ == "__main__":
-    # homepage()
-    init()
-    # main_kupac()
-    # main_radnik()
-
+    homepage()
