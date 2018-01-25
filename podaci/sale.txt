@@ -1,0 +1,4 @@
+AAA|sala1|3|3
+BBB|sala2|3|3
+CCC|sala3|4|4
+DCA|velika sala|4|3

@@ -1,0 +1,9 @@
+sanja|zunic|sanjaz|korisnik1|kupac
+anja|aleksic|anjaa|korisnik2|kupac
+dusan|ignjatovic|dule|ignjatovic1|kupac
+jovana|simic|menadzer|menadzer1|menadzer
+jovan|simic|prodavac|prodavac1|prodavac
+mile|jovanovic|mile|1234567|kupac
+dule|lule|lule|1234567|kupac
+Milica|Bojovic|milica1|milica1|prodavac
+Jovan|Sojic|retard|retard1|menadzer

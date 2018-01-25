@@ -1,0 +1,4 @@
+1111|AAA|19:30|22:00|monday,tuesday|Ljubav|250
+2222|BBB|20:00|21:30|wednesday,thursday|Munje|300
+3333|CCC|19:00|20:30|saturday,sunday|Profesionalac|200
+4444|DCA|16:30|18:00|monday,tuesday,wednesday,friday,saturday|Munje|1000

@@ -1,0 +1,12 @@
+dusan|ignjatovic|dule|3333AA|2c|31-12-9999|rezervisana
+dusan|ignjatovic|dule|2222AA|2c|31-12-9999|rezervisana
+mile|jovanovic|mile|2222AA|1a|31-12-9999|rezervisana
+dusan|ignjatovic|dule|3333AA|1d|20-01-2018|kupljena
+mile|jovanovic|mile|2222AA|1b|31-12-9999|rezervisana
+anja|aleksic|anjaa|1111AA|1a|31-12-9999|rezervisana
+mile|jovanovic|mile|1111AA|1c|31-12-9999|rezervisana
+sanja|zunic|sanjaz|2222AA|3a|31-12-9999|rezervisana
+dule|lule|lule|2222AA|3c|31-12-9999|rezervisana
+sanja|zunic|sanjaz|3333AA|4a|31-12-9999|rezervisana
+sanja|zunic|sanjaz|2222AA|2b|23-01-2018|kupljena
+dusan|ignjatovic|dule|4444AA|1a|24-01-2018|kupljena
