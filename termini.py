@@ -245,6 +245,8 @@ def print_sedista(termin):
 
 def proveri_sediste(termin, red, kolona):
     sedista = termin["sedista"]
+    if red >= len(sedista) or kolona >= len(sedista[0]):
+        return False
     if "x" == sedista[red][kolona].lower():
         return False
 

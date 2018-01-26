@@ -54,11 +54,11 @@ def dodaj_godinu_proizvodnje():
         :return: trajanje u minutima <- string
         """
     while True:
-        godina = input("Unesite trajanje (u minutima): ").strip()
+        godina = input("Unesite godinu proizvodnje: ").strip()
         try:
             int(godina)
         except ValueError:
-            print("Trajanje u minutima mora da bude broj!")
+            print("Godina proizvodnje mora da bude broj!")
             continue
         return godina
 

@@ -7,3 +7,4 @@ mile|jovanovic|mile|1234567|kupac
 dule|lule|lule|1234567|kupac
 Milica|Bojovic|milica1|milica1|prodavac
 Jovan|Sojic|retard|retard1|menadzer
+miladin|miladin1|miladin1|miladin1|prodavac

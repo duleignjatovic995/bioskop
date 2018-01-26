@@ -11,4 +11,6 @@ sanja|zunic|sanjaz|3333AA|4a|31-12-9999|rezervisana|---
 sanja|zunic|sanjaz|2222AA|2b|23-01-2018|kupljena|prodavac
 dusan|ignjatovic|dule|4444DD|1a|24-01-2018|kupljena|prodavac
 dule|lule|lule|3333AA|1a|25-01-2018|kupljena|prodavac
-dule|lule|lule|1111AA|1b|25-01-2018|kupljena|prodavac
+mile|jovanovic|mile|4444GG|2a|31-12-9999|rezervisana|---
+dule|lule|lule|4444GG|1d|26-01-2018|kupljena|milica1
+dule|lule|lule|3333AA|2d|26-01-2018|kupljena|milica1

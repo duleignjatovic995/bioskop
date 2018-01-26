@@ -390,11 +390,17 @@ def rezervacija_karata(korisnik):
             print("Unesite sifru zeljene projekcije")
             sifra_proj = input(">>").strip()
             lst = termini.pretraga_termina(sifra_proj)
+            if len(lst) == 0:
+                print("Nema projekcije za unetu sifru!")
+                continue
             print("Dostupne projekcije su:\n")
             termini.print_termine(lst)
             print("\nUnesite sifru termina koji hocete da rezervisete:")
             sifra_termina = input(">>").strip()
             termin = termini.vrati_termin(sifra_termina)
+            if termin is None:
+                print("Ne postoji termin za unetu sifru termina.")
+                continue
             termini.print_sedista(termin)
             print("Unesite slobodan red (1, 2, 3...):")
             red = int(input(">>").strip()) - 1
@@ -403,9 +409,13 @@ def rezervacija_karata(korisnik):
             termini.rezervisi_sediste(korisnik, termin, red, kolona)
 
         elif opcija == "2":
+            termini.print_termine()
             print("\nUnesite sifru termina koji hocete da rezervisete:")
             sifra_termina = input(">>").strip()
             termin = termini.vrati_termin(sifra_termina)
+            if termin is None:
+                print("Ne postoji termin za unetu sifru termina.")
+                continue
             termini.print_sedista(termin)
             print("Unesite slobodan red (1, 2, 3...):")
             red = int(input(">>").strip()) - 1
@@ -450,7 +460,11 @@ def rezervacija_karata_prodavac():
             print("Unesite slobodan red (1, 2, 3...):")
             red = int(input(">>").strip()) - 1
             print("Unesite slobodnu kolonu (A, B, C...):")
-            kolona = ord(input(">>").strip().lower()) - 97  # get acii value of lowercase letter - a
+            try:
+                kolona = ord(input(">>").strip().lower()) - 97  # get acii value of lowercase letter - a
+            except TypeError:
+                print("Lose uneto sediste")
+                continue
             termini.rezervisi_sediste(korisnik, termin, red, kolona)
 
 
@@ -468,10 +482,21 @@ def ponistavanje_rezervacija(korisnik):
     if len(film_filter) == 0:
         print("Nije pronadjena nijedna rezervacija pomenutog filma.")
         return
+    print("Unesite sifru termina projekcije gde zelite da otkazete rezervaciju:")
+    sifra_termina = input(">>").strip().lower()
+    termin_filter = []
+    for karta in film_filter:
+        if sifra_termina == karta["termin"]["sifra"].lower():
+            termin_filter.append(karta)
+    if len(termin_filter) == 0:
+        print("Nije pronadjena nijedna rezervacija za unetu sifru termina!")
+        return
+    karte.print_karte(termin_filter)
+
     print("Unesite sediste koje zelite da otkazete:")
     sediste = input(">>").strip().lower()
     rezervacija = None
-    for karta in film_filter:
+    for karta in termin_filter:
         if karta["oznaka"].lower() == sediste:
             rezervacija = karta
 
@@ -501,10 +526,22 @@ def ponistavanje_karata_prodavac():
     if len(film_filter) == 0:
         print("Nije pronadjena nijedna rezervacija pomenutog filma.")
         return
+
+    print("Unesite sifru termina projekcije gde zelite da otkazete rezervaciju:")
+    sifra_termina = input(">>").strip().lower()
+    termin_filter = []
+    for karta in film_filter:
+        if sifra_termina == karta["termin"]["sifra"].lower():
+            termin_filter.append(karta)
+    if len(termin_filter) == 0:
+        print("Nije pronadjena nijedna rezervacija za unetu sifru termina!")
+        return
+    karte.print_karte(termin_filter)
+
     print("Unesite sediste koje zelite da otkazete:")
     sediste = input(">>").strip().lower()
     rezervacija = None
-    for karta in film_filter:
+    for karta in termin_filter:
         if karta["oznaka"].lower() == sediste:
             rezervacija = karta
 
