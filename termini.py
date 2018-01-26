@@ -307,14 +307,6 @@ def oslobodi_sediste(karta):
     sacuvaj_sve()
 
 
-# todo makni
-# def refresh_termine():
-#     global lista_termina
-#     lista_termina = []
-#     ucitavanje_termina()
-#     karte.refresh_karte()
-
-
 def update_termin_cena(projekcija):
     for termin in lista_termina:
         if termin["projekcija"]["sifra"] == projekcija["sifra"]:

@@ -74,7 +74,7 @@ def main_kupac():
 
         if opcija == "1":
             korisnik = korisnici.registracija_korisnika()
-            print("Uspesno ste se registrovali.")
+            print("Uspesno ste se registrovali.\n")
             meni_kupac(korisnik)
 
         elif opcija == "2":
@@ -83,9 +83,9 @@ def main_kupac():
                 print("\nPogresno korisnicko ime ili lozinka\n")
                 korisnik = korisnici.prijava()
             if korisnik["tip"] != "kupac":
-                print("Nemate pristup ovom nalogu")
+                print("Nemate pristup ovom nalogu\n")
                 continue
-            print("Uspesno logovanje, dobrodosli", korisnik["korisnicko_ime"])
+            print("Uspesno logovanje, dobrodosli", korisnik["korisnicko_ime"], "\n")
             meni_kupac(korisnik)
 
         elif opcija == "0":
@@ -160,15 +160,15 @@ def main_radnik():
                 return
 
             if korisnik["tip"] == "menadzer":
-                print("Uspesno logovanje, dobrodosli", korisnik["korisnicko_ime"])
+                print("Uspesno logovanje, dobrodosli", korisnik["korisnicko_ime"], "\n")
                 meni_menadzer()
 
             elif korisnik["tip"] == "prodavac":
-                print("Uspesno logovanje, dobrodosli", korisnik["korisnicko_ime"])
+                print("Uspesno logovanje, dobrodosli", korisnik["korisnicko_ime"], "\n")
                 meni_prodavac(korisnik)
 
             else:
-                print("Nemate pristup ovom nalogu")
+                print("Nemate pristup ovom nalogu.\n")
 
 
         elif opcija == "0":
@@ -344,29 +344,41 @@ def pretraga_projekcija():
         print("\t 0. Nazad")
         print("\t 1. Pretraga po filmu")
         print("\t 2. Pretraga po sali")
-        print("\t 3. Pretraga po datumu i vremenu pocetka (hh:mm)")
-        print("\t 4. Pretraga po datumu i vremenu kraja (hh:mm)")
+        print("\t 3. Pretraga po vremenu pocetka (hh:mm)")
+        print("\t 4. Pretraga po vremenu kraja (hh:mm)")
 
         opcija = input(">>").strip()
 
         if opcija == "1":
             upit = input("Unesite upit: ").strip().lower()
             projekcije_lst = projekcije.pretraga_po_filmu(upit)
+            if len(projekcije_lst) == 0:
+                print("Ne postoje projekcije za unet upit.")
+                continue
             projekcije.print_projekcije(projekcije_lst)
 
         elif opcija == "2":
             upit = input("Unesite upit: ").strip().lower()
             projekcije_lst = projekcije.pretraga_po_sali(upit)
+            if len(projekcije_lst) == 0:
+                print("Ne postoje projekcije za unet upit.")
+                continue
             projekcije.print_projekcije(projekcije_lst)
 
         elif opcija == "3":
             upit = input("Unesite upit: ").strip().lower()
             projekcije_lst = projekcije.pretraga_po_pocetku(upit)
+            if len(projekcije_lst) == 0:
+                print("Ne postoje projekcije za unet upit.")
+                continue
             projekcije.print_projekcije(projekcije_lst)
 
         elif opcija == "4":
             upit = input("Unesite upit: ").strip().lower()
             projekcije_lst = projekcije.pretraga_po_kraju(upit)
+            if len(projekcije_lst) == 0:
+                print("Ne postoje projekcije za unet upit.")
+                continue
             projekcije.print_projekcije(projekcije_lst)
 
         elif opcija == "0":

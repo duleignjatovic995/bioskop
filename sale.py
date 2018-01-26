@@ -229,10 +229,3 @@ def izmeni_salu(sala):
 
     sacuvaj_sve()
     print("Sacuvane sve promene nad filmom u fajlovima!")
-
-
-# todo makni
-# def refresh_sale():
-#     global lista_sale
-#     lista_sale = []
-#     ucitavanje_sala()

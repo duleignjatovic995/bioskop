@@ -244,12 +244,6 @@ def obavesti_obrisan_termin(termin):
             lista_karata.remove(karta)
     sacuvaj_sve()
 
-# todo makni
-# def refresh_karte():
-#     global lista_karata
-#     lista_karata = []
-#     ucitavanje_karti()
-
 
 def sum_cena(lst=lista_karata):
     ukupna_cena = 0

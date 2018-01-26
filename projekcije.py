@@ -136,14 +136,14 @@ def dodaj_dane():
             print("Nepoznata operacija")
 
 
-        # print("Unesite dane na engleskom! (monday, tuesday...):")
-        # inp_dani = input(">>").strip()
-        # try:
-        #     dani = inp_dani.strip().split(",")
-        # except:
-        #     print("Greska pri unosu dana")
-        #     continue
-        # return dani
+            # print("Unesite dane na engleskom! (monday, tuesday...):")
+            # inp_dani = input(">>").strip()
+            # try:
+            #     dani = inp_dani.strip().split(",")
+            # except:
+            #     print("Greska pri unosu dana")
+            #     continue
+            # return dani
 
 
 def dodaj_film():
@@ -190,16 +190,20 @@ def ucitavanje_projekcija(fajl="podaci/projekcije.txt"):
 
 def print_projekcije(lst=lista_projekcija):
     print()
-    zaglavlje = "{0:<20} {1:<20} {2:<20} {3:<20} {4:<20}".format("SIFRA", "FILM", "SALA", "POCETAK", "KRAJ")
-    zaglavlje_linija = "{0:-<20} {1:-<20} {2:-<20} {3:-<20} {4:-<20}".format("-", "-", "-", "-", "-")
+    zaglavlje = "{0:<20} {1:<20} {2:<20} {3:<20} {4:<20} {5:<40}".format("SIFRA", "FILM", "SALA", "POCETAK", "KRAJ",
+                                                                         "DANI PROJEKCIJE")
+    zaglavlje_linija = "{0:-<20} {1:-<20} {2:-<20} {3:-<20} {4:-<20} {5:-<40}".format("-", "-", "-", "-", "-", "-")
     print(zaglavlje)
     print(zaglavlje_linija)
     for projekcija in lst:
-        linija = "{0:<20} {1:<20} {2:<20} {3:<20} {4:<20}".format(projekcija["sifra"],
-                                                                  projekcija["film"]["naziv_filma"],
-                                                                  projekcija["sala"]["sifra"],
-                                                                  datetime.strftime(projekcija["pocetak"], "%H:%M"),
-                                                                  datetime.strftime(projekcija["kraj"], "%H:%M"))
+        linija = "{0:<20} {1:<20} {2:<20} {3:<20} {4:<20} {5:<40}".format(
+            projekcija["sifra"],
+            projekcija["film"]["naziv_filma"],
+            projekcija["sala"]["sifra"],
+            datetime.strftime(projekcija["pocetak"], "%H:%M"),
+            datetime.strftime(projekcija["kraj"], "%H:%M"),
+            ", ".join(projekcija["dani"])
+        )
         print(linija)
     print()
 
@@ -224,7 +228,12 @@ def pretraga_po_sali(upit):
 
 def pretraga_po_pocetku(upit):
     lst = []
-    upit = datetime.strptime(upit, "%H:%M")
+    try:
+        upit = datetime.strptime(upit, "%H:%M")
+    except:
+        print("Lose uneto vreme")
+        return lst
+
     for projekcija in lista_projekcija:
         if upit == projekcija["pocetak"]:
             lst.append(projekcija)
@@ -233,7 +242,10 @@ def pretraga_po_pocetku(upit):
 
 def pretraga_po_kraju(upit):
     lst = []
-    upit = datetime.strptime(upit, "%H:%M")
+    try:
+        upit = datetime.strptime(upit, "%H:%M")
+    except:
+        print("Lose uneto vreme")
     for projekcija in lista_projekcija:
         if upit == projekcija["kraj"]:
             lst.append(projekcija)
@@ -279,7 +291,6 @@ def str2projekcija(linija):
 # brisanje i izmena projekcije
 
 def obrisi_projekciju(projekcija):
-
     lista_projekcija.remove(projekcija)
     termini.obavesti_obrisana_projekcija(projekcija)
     sacuvaj_sve()
@@ -288,7 +299,6 @@ def obrisi_projekciju(projekcija):
 def obavesti_obrisan_film(film):
     for projekcija in lista_projekcija:
         if film is projekcija["film"]:
-
             lista_projekcija.remove(projekcija)
             termini.obavesti_obrisana_projekcija(projekcija)
     sacuvaj_sve()
@@ -297,7 +307,6 @@ def obavesti_obrisan_film(film):
 def obavesti_obrisana_sala(sala):
     for projekcija in lista_projekcija:
         if sala is projekcija["sala"]:
-
             lista_projekcija.remove(projekcija)
             termini.obavesti_obrisana_projekcija(projekcija)
     sacuvaj_sve()
@@ -363,4 +372,3 @@ def izmeni_projekciju(projekcija):
 
     sacuvaj_sve()
     print("Sacuvane sve promene nad projekcijom u fajlovima!")
-
